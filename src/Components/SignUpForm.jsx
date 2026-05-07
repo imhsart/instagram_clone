@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
-const SignUpForm = () => {
+const SignUpForm = ({setToken}) => {
   const user = {
     nameRef :useRef(),
     emailRef : useRef(),
@@ -21,6 +21,7 @@ const SignUpForm = () => {
     .then(res => {
       console.log(res.data)
       setShowResult(true)
+      setToken(res.data.data.token)
       nameRef.current.value =''
       emailRef.current.value =''
       passRef.current.value =''
