@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react'
 import axios from 'axios'
+import '../styles/SignUp.css'
+import { useNavigate, Link } from 'react-router-dom'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -10,7 +12,7 @@ const SignUpForm = ({setToken}) => {
     passRef : useRef(),
     cpassRef : useRef()
   }
-  const [showResult, setShowResult] = useState(false)
+  const navigate = useNavigate()
 
   let {nameRef, emailRef, passRef, cpassRef} = user
 
@@ -19,18 +21,17 @@ const SignUpForm = ({setToken}) => {
 
     axios.post(`${baseUrl}/auth/signup`, {name:nameRef.current.value, email: emailRef.current.value, password: passRef.current.value})
     .then(res => {
-      console.log(res.data)
-      setShowResult(true)
-      setToken(res.data.data.token)
+      setToken(res?.data?.data?.token)
+      alert(res?.data?.message)
       nameRef.current.value =''
       emailRef.current.value =''
       passRef.current.value =''
       cpassRef.current.value =''
+      navigate('/dashboard')
     })
     .catch(err => {
       console.log(err)
     })
-
   }
 
   return (
@@ -46,7 +47,9 @@ const SignUpForm = ({setToken}) => {
         <input id='cpass' type='password' ref={cpassRef}></input>
         <button type='submit' id='signup-btn'>Sign Up</button>
       </form>
-      {showResult && <h2>User signed in successfully</h2>}
+      <div className="goto-login">
+        <p>Already have an account? <Link to='/login'>Log In here</Link></p>
+      </div>
     </div>
   )
 }

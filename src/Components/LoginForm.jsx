@@ -1,5 +1,7 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import '../styles/LogIn.css'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -9,20 +11,27 @@ const LoginForm = ({token, setToken}) => {
     emailRef: useRef(),
     passRef: useRef()
   }
-  const [showLogin, setShowLogin] = useState(false)
-
+  const navigate = useNavigate()
   let {emailRef, passRef} = loginUser
+
+  useEffect(() => {
+    if(!token){
+      navigate('/login')
+    }
+  }, [])
+
+  //a use effect here in case if token is present and only the link changes (like from dashboard to login) stay in dashboard. that functionality needa ask
 
   function handleSubmit(e){
     e.preventDefault()
 
     axios.post(`${baseUrl}/auth/login`, {email: emailRef.current.value, password: passRef.current.value}, {'token': token})
     .then(res => {
-      console.log(res.data.data)
-      setShowLogin(true)
-      setToken(res.data.data.token)
+      setToken(res?.data?.data?.token)
       emailRef.current.value = ''
       passRef.current.value = ''
+      alert(res?.data?.message)
+      navigate('/dashboard')
     })
     .catch(err => console.log(err))
   }
@@ -36,7 +45,9 @@ const LoginForm = ({token, setToken}) => {
         <input type="password" id="password" ref={passRef}></input>
         <button type="submit" id="login-btn">Log In</button>
       </form>
-      {showLogin && <h2>Logged in successfully</h2>}
+      <div className="goto-signup">
+        <p>Don't have an account? <Link to='/'>Sign Up here</Link></p>
+      </div>
     </div>
   )
 }

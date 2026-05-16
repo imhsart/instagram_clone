@@ -1,0 +1,38 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.signup-form{
+  width: 400px;
+  background-color: rgb(167, 244, 167);
+  border-radius: 5px;
+  padding: 20px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-block-start: 50px;  
+}
+input{
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+#signup-btn{
+  width: max-content;
+  background-color: rgb(9, 101, 9);
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  margin: 10px auto;
+}
+.goto-login{
+  text-align: center;
+  margin: 10px;
+  a{
+    text-decoration: none;
+    color: rgb(41, 125, 244);
+  }
+}
