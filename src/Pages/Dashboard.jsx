@@ -1,22 +1,24 @@
-import React, {useState, useEffect} from 'react'
-import LogOut from '../Components/LogOut'
+import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../Context/AuthContext'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
-//if i change URL on dashboard to signup or login , its going,. ask that how to stop it, because the getzukumessage isnt there , same for signup maybe
-//because currently it goes into a loop of 2 useeffects
 
-const Dashboard = ({token}) => {
+
+const Dashboard = () => {
   const [zukuData, setZukuData] = useState('')
   const [user, setUser] = useState('')
   const navigate = useNavigate()
+  const {token, setToken} = useContext(AuthContext)
+
   useEffect(() => {
     if(!token){
       navigate('/login')
     }
-  }, [])
+  }, [token])
+
 
   useEffect(() => {
     if(token){
@@ -39,9 +41,28 @@ const Dashboard = ({token}) => {
       }
     }
 
+  async function handleClick(){
+    try{
+      const response = await axios.delete(`${baseUrl}/auth/logout`, {
+        headers: {
+          Authorization : `Bearer ${token}`
+        }
+      })
+      const data = response.data
+      setToken('')
+      alert(data?.message)
+      navigate('/login')
+    }catch(error){
+      console.log(error)
+    }
+  }
+  
   return (
     <div className='dashboard-container'>
-      <LogOut token={token} />
+      <div className="navbar">
+        <h2>DASHBOARD</h2>
+        <button onClick={handleClick} className="logout-btn">Log Out</button>
+      </div>
         <h1>Welcome, {user}! </h1>
         <div className='quote-section'>
           <h3>Daily Motivation</h3>

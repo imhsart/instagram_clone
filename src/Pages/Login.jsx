@@ -1,10 +1,10 @@
 import React from 'react';
 import LoginForm from '../Components/LoginForm';
 
-const Login = ({token,setToken}) => {
+const Login = () => {
   return (
     <div>
-      <LoginForm token={token} setToken={setToken} />
+      <LoginForm />
     </div>
   )
 }

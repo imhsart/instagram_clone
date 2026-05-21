@@ -1,11 +1,11 @@
 import React from 'react'
 import SignUpForm from '../Components/SignUpForm'
 
-const SignUp = ({setToken}) => {
+const SignUp = () => {
 
   return (
     <div>
-      <SignUpForm setToken={setToken} />
+      <SignUpForm />
     </div>
   )
 }

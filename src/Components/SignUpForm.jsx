@@ -1,20 +1,27 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useContext, useRef, useEffect} from 'react'
 import axios from 'axios'
 import '../styles/SignUp.css'
 import { useNavigate, Link } from 'react-router-dom'
+import { AuthContext } from '../Context/AuthContext'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
-const SignUpForm = ({setToken}) => {
+const SignUpForm = () => {
   const user = {
     nameRef :useRef(),
     emailRef : useRef(),
     passRef : useRef(),
     cpassRef : useRef()
   }
+  const {token,setToken} = useContext(AuthContext);
   const navigate = useNavigate()
 
   let {nameRef, emailRef, passRef, cpassRef} = user
+  useEffect(() => {
+    if(token){
+      navigate('/dashboard')
+    }
+  },[])
 
   function handleSubmit(e){
     e.preventDefault()

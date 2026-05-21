@@ -1,26 +1,27 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/LogIn.css'
+import { AuthContext } from "../Context/AuthContext";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
-const LoginForm = ({token, setToken}) => {
+const LoginForm = () => {
 
   const loginUser = {
     emailRef: useRef(),
     passRef: useRef()
   }
+  const {token, setToken} = useContext(AuthContext)
   const navigate = useNavigate()
   let {emailRef, passRef} = loginUser
 
   useEffect(() => {
-    if(!token){
-      navigate('/login')
+    if(token){
+      navigate('/dashboard')
     }
   }, [])
 
-  //a use effect here in case if token is present and only the link changes (like from dashboard to login) stay in dashboard. that functionality needa ask
 
   function handleSubmit(e){
     e.preventDefault()
